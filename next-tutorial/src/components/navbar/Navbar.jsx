@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import styles from "./navbar.module.css";
 
 const links = [
   {
@@ -35,14 +38,24 @@ const links = [
 
 function Navbar() {
   return (
-    <div>
-      <Link href="/">Home</Link>
-      <div>
+    <div className={styles.container}>
+      <Link href="/" className={styles.logo}>
+        Kang Blog
+      </Link>
+      <div className={styles.links}>
         {links.map((link) => (
-          <Link href={link.url} key={link.id}>
+          <Link href={link.url} key={link.id} className={styles.link}>
             {link.title}
           </Link>
         ))}
+        <button
+          className={styles.logout}
+          onClick={() => {
+            console.log("sss");
+          }}
+        >
+          Logout
+        </button>
       </div>
     </div>
   );
