@@ -3,7 +3,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation"; // 에러페이지
 
 async function getData(id) {
-  const res = await fetch(`https://jsonplaceholder.typicode.com/posts/${id}`, {
+  const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
     // next: { revalidate: 10 },
     cache: "no-store",
   });
@@ -27,26 +27,26 @@ const BlogPost = async ({ params }) => {
           <p className={styles.desc}>{data.title}</p>
           <div className={styles.author}>
             <Image
-              src={""}
-              alt=""
+              src={data.image}
+              alt={data.title}
               width={40}
               height={40}
               className={styles.avatar}
             />
-            <span className={styles.username}>Name</span>
+            <span className={styles.username}>{data.username}</span>
           </div>
         </div>
         <div className={styles.imageContainer}>
-          <Image src={""} alt="" fill={true} className={styles.image} />
+          <Image
+            src={data.image}
+            alt={data.title}
+            fill={true}
+            className={styles.image}
+          />
         </div>
       </div>
       <div className={styles.content}>
-        <p className={styles.text}>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi
-          reprehenderit obcaecati ullam optio? Suscipit eligendi enim
-          voluptatibus repellendus repellat tempore! Laudantium, quibusdam
-          accusantium maiores et aut sit labore facilis vel.
-        </p>
+        <p className={styles.text}>{data.content}</p>
       </div>
     </div>
   );
