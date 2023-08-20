@@ -2,6 +2,11 @@ import Button from "@/components/Button/Button";
 import styles from "./page.module.css";
 import Image from "next/image";
 
+export const metadata = {
+  title: "문의하기",
+  description: "문의하기",
+};
+
 function Contact() {
   return (
     <div className={styles.container}>
