@@ -37,6 +37,19 @@ function Dashboard() {
 
   // console.log(data);
 
+  const session = useSession();
+  console.log(session);
+  const router = useRouter();
+
+  const fetcher = (...args) => fetch(...args).then((res) => res.json());
+
+  const { data, mutate, error, isLoading } = useSWR(
+    `/api/posts?username=${session?.data?.user.name}`,
+    fetcher
+  );
+
+  console.log(data);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -60,24 +73,24 @@ function Dashboard() {
         },
       });
 
-      router.push("/dashboard");
+      mutate();
+      e.target.reset();
     } catch (err) {
       console.log(err);
     }
   };
 
-  const session = useSession();
-  console.log(session);
-  const router = useRouter();
+  const handleDelete = async (id) => {
+    try {
+      await fetch(`/api/posts/${id}`, {
+        method: "DELETE",
+      });
 
-  const fetcher = (...args) => fetch(...args).then((res) => res.json());
-
-  const { data, error, isLoading } = useSWR(
-    `/api/posts?username=${session?.data?.user.name}`,
-    fetcher
-  );
-
-  console.log(data);
+      mutate();
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   if (session.status === "loading") {
     return <p>Loading....</p>;
@@ -105,7 +118,12 @@ function Dashboard() {
                     />
                   </div>
                   <h2 className={styles.postTitle}>{post.title}</h2>
-                  <span className={styles.delete}>X</span>
+                  <span
+                    className={styles.delete}
+                    onClick={() => handleDelete(post._id)}
+                  >
+                    X
+                  </span>
                 </div>
               ))}
         </div>

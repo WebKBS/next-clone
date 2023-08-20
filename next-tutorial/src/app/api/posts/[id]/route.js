@@ -15,3 +15,17 @@ export const GET = async (request, { params }) => {
     return new NextResponse("데이터베이스 에러", { status: 500 });
   }
 };
+
+export const DELETE = async (request, { params }) => {
+  const { id } = params;
+  try {
+    await connect();
+
+    await Post.findByIdAndDelete(id);
+
+    return new NextResponse("Delete!!", { status: 201 });
+  } catch (err) {
+    console.log(err);
+    return new NextResponse("데이터베이스 에러", { status: 500 });
+  }
+};
