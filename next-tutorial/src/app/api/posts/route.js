@@ -18,6 +18,7 @@ const createConnection = async () => {
     throw new Error("데이터베이스 연결 실패");
   }
 };
+
 export const GET = async (request) => {
   try {
     const connection = await createConnection();
@@ -39,6 +40,31 @@ export const GET = async (request) => {
     connection.end();
 
     return new NextResponse(JSON.stringify(rows), { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return new NextResponse("데이터베이스 에러", { status: 500 });
+  }
+};
+
+export const POST = async (request) => {
+  const body = await request.json();
+
+  try {
+    const connection = await createConnection();
+
+    const { title, content, username } = body;
+
+    // SQL 쿼리 실행
+    const query =
+      "INSERT INTO posts (title, content, username) VALUES (?, ?, ?)";
+    const queryParams = [title, content, username];
+
+    await connection.query(query, queryParams);
+
+    // 데이터베이스 연결 해제
+    connection.end();
+
+    return new NextResponse("Post 성공!", { status: 201 });
   } catch (error) {
     console.log(error);
     return new NextResponse("데이터베이스 에러", { status: 500 });

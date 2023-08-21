@@ -107,7 +107,7 @@ function Dashboard() {
           {isLoading
             ? "loading..."
             : data?.map((post) => (
-                <div className={styles.post} key={post._id}>
+                <div className={styles.post} key={post.id}>
                   <div className={styles.imgContainer}>
                     <Image
                       src={post.image}
@@ -120,7 +120,7 @@ function Dashboard() {
                   <h2 className={styles.postTitle}>{post.title}</h2>
                   <span
                     className={styles.delete}
-                    onClick={() => handleDelete(post._id)}
+                    onClick={() => handleDelete(post.id)}
                   >
                     X
                   </span>
