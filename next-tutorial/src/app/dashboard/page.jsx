@@ -54,7 +54,7 @@ function Dashboard() {
     e.preventDefault();
 
     const title = e.target[0].value;
-    const desc = e.target[1].value;
+    const description = e.target[1].value;
     const image = e.target[2].value;
     const content = e.target[3].value;
 
@@ -63,7 +63,7 @@ function Dashboard() {
         method: "POST",
         body: JSON.stringify({
           title,
-          desc,
+          description,
           image,
           content,
           username: session?.data?.user.name,
@@ -77,6 +77,7 @@ function Dashboard() {
       e.target.reset();
     } catch (err) {
       console.log(err);
+      alert(err);
     }
   };
 

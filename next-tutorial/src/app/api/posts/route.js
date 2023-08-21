@@ -52,12 +52,12 @@ export const POST = async (request) => {
   try {
     const connection = await createConnection();
 
-    const { title, content, username } = body;
+    const { title, description, image, content, username } = body;
 
     // SQL 쿼리 실행
     const query =
-      "INSERT INTO posts (title, content, username) VALUES (?, ?, ?)";
-    const queryParams = [title, content, username];
+      "INSERT INTO posts (title, description, image, content, username) VALUES (?, ?, ?, ?, ?)";
+    const queryParams = [title, description, image, content, username];
 
     await connection.query(query, queryParams);
 
