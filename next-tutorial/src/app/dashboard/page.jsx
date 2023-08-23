@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useSession } from 'next-auth/react';
+// import { useRouter } from 'next/navigation';
 // import { useEffect, useState } from "react";
-import useSWR from "swr";
+import useSWR from 'swr';
 
-import styles from "./page.module.css";
-import Image from "next/image";
+import styles from './page.module.css';
+import Image from 'next/image';
 
 function Dashboard() {
   // useEffect는 더이상 쓰지말자.
@@ -39,14 +39,11 @@ function Dashboard() {
 
   const session = useSession();
   console.log(session);
-  const router = useRouter();
+  // const router = useRouter();
 
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-  const { data, mutate, error, isLoading } = useSWR(
-    `/api/posts?username=${session?.data?.user.name}`,
-    fetcher
-  );
+  const { data, mutate, error, isLoading } = useSWR(`/api/posts?username=${session?.data?.user.name}`, fetcher);
 
   console.log(data);
 
@@ -59,8 +56,8 @@ function Dashboard() {
     const content = e.target[3].value;
 
     try {
-      await fetch("/api/posts", {
-        method: "POST",
+      await fetch('/api/posts', {
+        method: 'POST',
         body: JSON.stringify({
           title,
           description,
@@ -69,7 +66,7 @@ function Dashboard() {
           username: session?.data?.user.name,
         }),
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
 
@@ -84,7 +81,7 @@ function Dashboard() {
   const handleDelete = async (id) => {
     try {
       await fetch(`/api/posts/${id}`, {
-        method: "DELETE",
+        method: 'DELETE',
       });
 
       mutate();
@@ -93,36 +90,28 @@ function Dashboard() {
     }
   };
 
-  if (session.status === "loading") {
+  if (session.status === 'loading') {
     return <p>Loading....</p>;
   }
 
-  if (session.status === "unauthenticated") {
-    return router?.push("/dashboard/login");
+  // console.log('라우터', router);
+  if (session.status === 'unauthenticated') {
+    window.location.href = '/dashboard/login';
   }
 
-  if (session.status === "authenticated") {
+  if (session.status === 'authenticated') {
     return (
       <div className={styles.container}>
         <div className={styles.posts}>
           {isLoading
-            ? "loading..."
+            ? 'loading...'
             : data?.map((post) => (
                 <div className={styles.post} key={post.id}>
                   <div className={styles.imgContainer}>
-                    <Image
-                      src={post.image}
-                      alt={post.title}
-                      width={200}
-                      height={100}
-                      unoptimized
-                    />
+                    <Image src={post.image} alt={post.title} width={200} height={100} unoptimized />
                   </div>
                   <h2 className={styles.postTitle}>{post.title}</h2>
-                  <span
-                    className={styles.delete}
-                    onClick={() => handleDelete(post.id)}
-                  >
+                  <span className={styles.delete} onClick={() => handleDelete(post.id)}>
                     X
                   </span>
                 </div>
@@ -133,12 +122,7 @@ function Dashboard() {
           <input type="text" placeholder="Title" className={styles.input} />
           <input type="text" placeholder="Desc" className={styles.input} />
           <input type="text" placeholder="Image" className={styles.input} />
-          <textarea
-            placeholder="Content"
-            className={styles.textArea}
-            cols="30"
-            rows="10"
-          ></textarea>
+          <textarea placeholder="Content" className={styles.textArea} cols="30" rows="10"></textarea>
           <button className={styles.button}>Send</button>
         </form>
       </div>
