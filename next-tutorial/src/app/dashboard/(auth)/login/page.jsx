@@ -2,7 +2,8 @@
 
 import { signIn, useSession } from 'next-auth/react';
 import styles from './page.module.css';
-// import { useRouter } from "next/navigation";
+import Link from 'next/link';
+// import { useRouter } from 'next/navigation';
 
 function Login() {
   const session = useSession();
@@ -31,7 +32,12 @@ function Login() {
         <input type="password" placeholder="password" className={styles.input} required />
         <button className={styles.button}>Login</button>
       </form>
-      <button onClick={() => signIn('google')}>Login with Google</button>
+      <Link href="/dashboard/register" className={styles.signup}>
+        Sign Up
+      </Link>
+      <button className={styles.google} onClick={() => signIn('google')}>
+        Login with Google
+      </button>
     </div>
   );
 }

@@ -33,7 +33,9 @@
   font-weight: bold;
 }
 
-.button {
+.button,
+.signup,
+.google {
   width: 300px;
   padding: 20px;
   cursor: pointer;
@@ -42,6 +44,11 @@
   border-radius: 5px;
   color: #eee;
   font-weight: bold;
+}
+
+.signup {
+  background-color: dimgray;
+  text-align: center;
 }
 
 .button:hover {
