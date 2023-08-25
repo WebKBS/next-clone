@@ -39,7 +39,7 @@ function Dashboard() {
   // console.log(data);
 
   const session = useSession();
-  console.log(session);
+  // console.log(session);
   const router = useRouter();
 
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -57,7 +57,7 @@ function Dashboard() {
     const content = e.target[3].value;
 
     try {
-      await fetch('/api/posts', {
+      const response = await fetch('/api/posts', {
         method: 'POST',
         body: JSON.stringify({
           title,
@@ -71,11 +71,16 @@ function Dashboard() {
         },
       });
 
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        return alert(responseData.message);
+      }
+
       mutate();
       e.target.reset();
     } catch (err) {
       console.log(err);
-      alert(err);
     }
   };
 

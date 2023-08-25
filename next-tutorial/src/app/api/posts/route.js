@@ -28,13 +28,20 @@ export const GET = async (request) => {
   }
 };
 
-export const POST = async (request) => {
+export const POST = async (request, response) => {
   const body = await request.json();
 
   try {
     const connection = await createConnection();
 
     const { title, description, image, content, username } = body;
+
+    console.log(body);
+    if (!title || !description || !image || !content || !username) {
+      return new NextResponse(JSON.stringify({ message: '메세지를 입력하세요!' }), {
+        status: 400,
+      });
+    }
 
     // SQL 쿼리 실행
     const query = 'INSERT INTO posts (title, description, image, content, username) VALUES (?, ?, ?, ?, ?)';
