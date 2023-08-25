@@ -3,18 +3,22 @@
 import { signIn, useSession } from 'next-auth/react';
 import styles from './page.module.css';
 import Link from 'next/link';
-// import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 function Login() {
   const session = useSession();
-  // const router = useRouter();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (session.status === 'authenticated') {
+      // window.location.href = '/dashboard';
+      router.push('/dashboard');
+    }
+  }, [router, session]);
 
   if (session.status === 'loading') {
     return <p>Loading...</p>;
-  }
-
-  if (session.status === 'authenticated') {
-    window.location.href = '/dashboard';
   }
 
   const submitHandler = async (e) => {

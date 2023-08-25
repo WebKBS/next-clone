@@ -7,6 +7,7 @@ import useSWR from 'swr';
 
 import styles from './page.module.css';
 import Image from 'next/image';
+import { useEffect } from 'react';
 
 function Dashboard() {
   // useEffect는 더이상 쓰지말자.
@@ -39,7 +40,7 @@ function Dashboard() {
 
   const session = useSession();
   console.log(session);
-  // const router = useRouter();
+  const router = useRouter();
 
   const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
@@ -78,6 +79,14 @@ function Dashboard() {
     }
   };
 
+  // console.log('라우터', router);
+  useEffect(() => {
+    if (session.status === 'unauthenticated') {
+      // window.location.href = '/dashboard/login';
+      router.push('/dashboard/login');
+    }
+  }, [session, router]);
+
   const handleDelete = async (id) => {
     try {
       await fetch(`/api/posts/${id}`, {
@@ -92,11 +101,6 @@ function Dashboard() {
 
   if (session.status === 'loading') {
     return <p>Loading....</p>;
-  }
-
-  // console.log('라우터', router);
-  if (session.status === 'unauthenticated') {
-    window.location.href = '/dashboard/login';
   }
 
   if (session.status === 'authenticated') {
