@@ -33,7 +33,7 @@ const handler = NextAuth({
             } else {
               connection.end(); // 연결 종료
               console.log('데이터베이스 연결이 종료되었습니다.');
-              throw new Error('Password가 일치하지 않습니다.');
+              throw new Error('비밀번호가 일치하지 않습니다.');
             }
           } else {
             console.log('데이터베이스 연결이 종료되었습니다.');
@@ -46,6 +46,10 @@ const handler = NextAuth({
       },
     }),
   ],
+  session: {
+    // 세션 옵션 설정
+    maxAge: 60 * 60,
+  },
   pages: {
     error: '/dashboard/login',
   },

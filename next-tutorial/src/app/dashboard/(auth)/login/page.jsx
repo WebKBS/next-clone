@@ -27,7 +27,9 @@ function Login() {
     const email = e.target[0].value;
     const password = e.target[1].value;
     signIn('credentials', { email, password, callbackUrl: '/', redirect: false }).then((err) => {
-      alert(err.error);
+      if (err.error !== null) {
+        alert(err.error);
+      }
     });
   };
 
