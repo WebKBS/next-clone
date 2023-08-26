@@ -2,19 +2,19 @@ import React from "react";
 import styles from "./page.module.css";
 import Link from "next/link";
 import Image from "next/image";
+import { getData } from "@/components/Fetch/fetchData";
+// async function getData() {
+//   const res = await fetch(`/api/posts`, {
+//     // next: { revalidate: 10 },
+//     cache: "no-store",
+//   });
 
-async function getData() {
-  const res = await fetch("http://localhost:3000/api/posts", {
-    // next: { revalidate: 10 },
-    cache: "no-store",
-  });
+//   if (!res.ok) {
+//     throw new Error(`Could not fetch ${res.status}`);
+//   }
 
-  if (!res.ok) {
-    throw new Error(`Could not fetch ${res.status}`);
-  }
-
-  return res.json();
-}
+//   return res.json();
+// }
 
 const Blog = async () => {
   const data = await getData();

@@ -1,22 +1,22 @@
-import styles from './page.module.css';
-import Image from 'next/image';
-import { notFound } from 'next/navigation'; // 에러페이지
+import styles from "./page.module.css";
+import Image from "next/image";
+import { notFound } from "next/navigation"; // 에러페이지
+import { getData2 } from "@/components/Fetch/fetchData";
+// async function getData(id) {
+//   const res = await fetch(`/api/posts/${id}`, {
+//     // next: { revalidate: 10 },
+//     cache: "no-store",
+//   });
 
-async function getData(id) {
-  const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
-    // next: { revalidate: 10 },
-    cache: 'no-store',
-  });
+//   if (!res.ok) {
+//     return notFound();
+//   }
 
-  if (!res.ok) {
-    return notFound();
-  }
-
-  return res.json();
-}
+//   return res.json();
+// }
 
 export async function generateMetadata({ params }) {
-  const post = await getData(params.id);
+  const post = await getData2(params.id);
 
   return {
     title: post.title,
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }) {
 }
 
 const BlogPost = async ({ params }) => {
-  const data = await getData(params.id);
+  const data = await getData2(params.id);
 
   return (
     <div className={styles.container}>
@@ -34,12 +34,25 @@ const BlogPost = async ({ params }) => {
           <h1 className={styles.title}>{data.title}</h1>
           <p className={styles.desc}>{data.title}</p>
           <div className={styles.author}>
-            <Image src={data.image} alt={data.title} width={40} height={40} className={styles.avatar} unoptimized />
+            <Image
+              src={data.image}
+              alt={data.title}
+              width={40}
+              height={40}
+              className={styles.avatar}
+              unoptimized
+            />
             <span className={styles.username}>{data.username}</span>
           </div>
         </div>
         <div className={styles.imageContainer}>
-          <Image src={data.image} alt={data.title} fill={true} className={styles.image} unoptimized />
+          <Image
+            src={data.image}
+            alt={data.title}
+            fill={true}
+            className={styles.image}
+            unoptimized
+          />
         </div>
       </div>
       <div className={styles.content}>

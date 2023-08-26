@@ -1,18 +1,18 @@
-import createConnection from '@/utils/sql_db';
-import { NextResponse } from 'next/server';
+import createConnection from "@/utils/sql_db";
+import { NextResponse } from "next/server";
 
 export const GET = async (request) => {
   try {
     const connection = await createConnection();
 
     const url = new URL(request.url);
-    const username = url.searchParams.get('username');
+    const username = url.searchParams.get("username");
 
-    let query = 'SELECT * FROM posts';
+    let query = "SELECT * FROM posts";
     let queryParams = [];
 
     if (username) {
-      query += ' WHERE username = ?';
+      query += " WHERE username = ?";
       queryParams.push(username);
     }
 
@@ -24,7 +24,7 @@ export const GET = async (request) => {
     return new NextResponse(JSON.stringify(rows), { status: 200 });
   } catch (error) {
     console.log(error);
-    return new NextResponse('데이터베이스 에러', { status: 500 });
+    return new NextResponse("데이터베이스 에러", { status: 500 });
   }
 };
 
@@ -38,13 +38,17 @@ export const POST = async (request, response) => {
 
     console.log(body);
     if (!title || !description || !image || !content || !username) {
-      return new NextResponse(JSON.stringify({ message: '메세지를 입력하세요!' }), {
-        status: 400,
-      });
+      return new NextResponse(
+        JSON.stringify({ message: "메세지를 입력하세요!" }),
+        {
+          status: 400,
+        }
+      );
     }
 
     // SQL 쿼리 실행
-    const query = 'INSERT INTO posts (title, description, image, content, username) VALUES (?, ?, ?, ?, ?)';
+    const query =
+      "INSERT INTO posts (title, description, image, content, username) VALUES (?, ?, ?, ?, ?)";
     const queryParams = [title, description, image, content, username];
 
     await connection.query(query, queryParams);
@@ -52,10 +56,10 @@ export const POST = async (request, response) => {
     // 데이터베이스 연결 해제
     connection.end();
 
-    return new NextResponse('Post 성공!', { status: 201 });
+    return new NextResponse("Post 성공!", { status: 201 });
   } catch (error) {
     console.log(error);
-    return new NextResponse('데이터베이스 에러', { status: 500 });
+    return new NextResponse("데이터베이스 에러", { status: 500 });
   }
 };
 
