@@ -3,6 +3,8 @@ import styles from "./page.module.css";
 import Link from "next/link";
 import Image from "next/image";
 import { getData } from "@/components/Fetch/fetchData";
+
+export const runtime = "edge"; // 'nodejs' (default) | 'edge'
 // async function getData() {
 //   const res = await fetch(`/api/posts`, {
 //     // next: { revalidate: 10 },
